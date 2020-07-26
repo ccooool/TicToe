@@ -7,8 +7,13 @@ import sys
 
 # Dictionary mapping position numbers to board coordinates
 coords = {1: (0, 0), 2: (0, 1), 3: (0, 2), 4: (1, 0), 5: (1, 1), 6: (1, 2), 7: (2, 0), 8: (2, 1),9: (2, 2)}
+
+
 def new_board() -> list:
     """
+
+    [1,2,3,4]
+
     This function will create a new, blank, tic-tac-toe board, using
     a 2D array.
     """
@@ -16,6 +21,14 @@ def new_board() -> list:
     # TODO 
     # Create a tic-tac-toe board filled with empty spaces. Represent empty spaces with None. 
     # Hint: Use the global board size variable.
+    #
+    # 1 | 2 | 3
+    # ---------
+    # 4 | 5 | 6
+    # ---------
+    # 7 | 8 | 9
+
+
     pass
 
 
@@ -175,7 +188,7 @@ def play(p1_name, p2_name):
 
     Args:
         p1_name ([type]): [description]
-        p2_name ([type]): [description]
+        p2_name ([type]): [description] 
     """
 
     # Declare the two players of the game
@@ -187,6 +200,14 @@ def play(p1_name, p2_name):
     # Start a fresh game at 0 turns so far, and a new board
     turn_number = 0
     board = new_board()
+
+    # our board looks like this, with these labels for the spaces
+
+    #   1 | 2 | 3
+    #   ---------
+    #   4 | 5 | 6
+    #   ---------
+    #   7 | 8 | 9
 
     # Continue the game until a winner is found
     while True:

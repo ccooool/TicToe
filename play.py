@@ -13,4 +13,4 @@ if __name__ == "__main__":
         except:
             print("invalid name input, enter player names again")
     play(player_1, player_2)
-    
+   
