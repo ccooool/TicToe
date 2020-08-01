@@ -3,7 +3,8 @@ import sys
 
 # TODO
 # Set the size of the tic tac toe board with two global variables
-
+BOARD_WIDTH = 3
+BOARD_HEIGHT = 3
 
 # Dictionary mapping position numbers to board coordinates
 coords = {1: (0, 0), 2: (0, 1), 3: (0, 2), 4: (1, 0), 5: (1, 1), 6: (1, 2), 7: (2, 0), 8: (2, 1),9: (2, 2)}
@@ -11,9 +12,7 @@ coords = {1: (0, 0), 2: (0, 1), 3: (0, 2), 4: (1, 0), 5: (1, 1), 6: (1, 2), 7: (
 
 def new_board() -> list:
     """
-
     [1,2,3,4]
-
     This function will create a new, blank, tic-tac-toe board, using
     a 2D array.
     """
@@ -22,17 +21,31 @@ def new_board() -> list:
     # Create a tic-tac-toe board filled with empty spaces. Represent empty spaces with None. 
     # Hint: Use the global board size variable.
     #
-    # 1 | 2 | 3
-    # ---------
-    # 4 | 5 | 6
-    # ---------
-    # 7 | 8 | 9
+    # None  |  None | None
+    # ------------------------
+    # None  |  None | None
+    # ------------------------
+    #  None |  None |  None
 
+   ''' if BOARD_HEIGHT == 3 and if BOARD_WIDTH == 3: 
+        board = [[None, None, None],[None, None ,None],[None, None, None]]
 
-    pass
+    if BOARD_HEIGHT == 4 and if BOARD_WIDTH == 4: 
+        board = [[None, None, None, None],[None, None, None, None],[None, None, None, None],[None, None, None, None]]
+    '''
+
+    board = []
+    for i in range(BOARD_HEIGHT):
+        row = []
+        for i in range(BOARD_WIDTH):
+            row.append(None)
+        board.append(row)
+    return board
 
 
 def get_winner(board: list) -> str:
+    
+
     """
     This function will look at the board and check if a player has won. 
     If a player won, it returns the winning player's symbol. Otherwise, 
@@ -42,7 +55,39 @@ def get_winner(board: list) -> str:
         board (list): The list that is the tic-tac-toe board
     """
 
-    all_3_in_a_row = get_all_winning_lines()
+     get_all_winning_lines()
+    #  =  [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
+
+
+    #  1 | 2 | 3
+    #  ---------
+    #  4 | 5 | 6
+    #  ---------
+    #  7 | 8 | 9
+
+    for three_in_row in all_3_in_a_row:
+        # example: three_in_row = [3,5,7]
+        values = []
+        for position in three_in_row:
+            x = coords[position][0]
+            y = coords[position][1]
+            values.append(board[x][y])
+        if set(values) == {"O"} or if set(values) == {"X"}:
+            print(values[0] + "has won the game!")
+            return values[0]
+    print("no winner :C")
+    return None
+            
+
+
+
+
+
+
+#yay me win ¯\_(ツ)_/¯
+#               |
+#               |
+#              /\
 
     # TODO
     # Check if our board contains any lines of three X's in a row or three O's in a row. 
@@ -67,18 +112,24 @@ def get_all_winning_lines() -> list:
     ---------
     4 | 5 | 6
     ---------
-    7 | 8 | 9
+    7 | 8 | 9 
+    
+    [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
 
     Returns:
         list: list of lists, where inner lists are a possible combination.
     """
-    all_winning_lines = []
-
-    # TODO
-    # Append all possible combinations of three in a row to all_winning_lines
-    # Each combination of three positions should be in its own list.
     
-    return all_winning_lines
+    rows = [[1,2,3], [4,5,6], [7,8,9]]
+    cols = [[1,4,7], [2,5,8], [3,6,9]]
+    diagonals = [[1,5,9], [7,5,3]]
+
+    return rows + cols + diagonals
+    
+
+
+
+
 
 
 def render(board):
@@ -143,6 +194,10 @@ def make_move_pos(symbol, board, position_num):
         # Use an if statement to check if the position is valid.
         pass
 
+
+
+
+
 def is_board_full(board):
     """
     Checks if the board is completely full and if there are no more free spaces.
@@ -152,10 +207,31 @@ def is_board_full(board):
 
     Returns:
         True if the board is full, False otherwise
+
+
+    1 | 2 | 3
+    ---------
+    4 | 5 | 6
+    ---------
+    7 | 8 | 9
+
+
     """
-    # TODO 
-    # Using a nested for loop, check all positions of the board to see if it is full.
-    # Return the appropriate boolean.
+    # Checking the board 
+    # look through every row
+    for row in board:
+        # look through every position
+        for position in row:
+            # If I find one empty space, return false because it is not full
+            if position = None:
+                return False
+    # I already looked through all spaces. So return True
+    return True            
+         
+
+
+
+
 
 def get_move(board, current_player_symbol, current_player_name):
     """
@@ -235,3 +311,16 @@ def play(p1_name, p2_name):
 
         turn_number += 1
 
+
+
+
+
+"""
+How can we optimize our usage of get_all_winning_lines?
+
+- Every single time we make a move, we calculate all possible 3 in a row
+- How can we avoid this?
+- Where can we store it so we don't have to calculate it so many times?
+- 
+
+"""
