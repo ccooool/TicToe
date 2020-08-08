@@ -27,12 +27,6 @@ def new_board() -> list:
     # ------------------------
     #  None |  None |  None
 
-   ''' if BOARD_HEIGHT == 3 and if BOARD_WIDTH == 3: 
-        board = [[None, None, None],[None, None ,None],[None, None, None]]
-
-    if BOARD_HEIGHT == 4 and if BOARD_WIDTH == 4: 
-        board = [[None, None, None, None],[None, None, None, None],[None, None, None, None],[None, None, None, None]]
-    '''
 
     board = []
     for i in range(BOARD_HEIGHT):
@@ -55,7 +49,7 @@ def get_winner(board: list) -> str:
         board (list): The list that is the tic-tac-toe board
     """
 
-     get_all_winning_lines()
+    all_3_in_a_row = get_all_winning_lines()
     #  =  [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
 
 
@@ -72,7 +66,7 @@ def get_winner(board: list) -> str:
             x = coords[position][0]
             y = coords[position][1]
             values.append(board[x][y])
-        if set(values) == {"O"} or if set(values) == {"X"}:
+        if set(values) == {"O"} or set(values) == {"X"}:
             print(values[0] + "has won the game!")
             return values[0]
     print("no winner :C")
@@ -112,7 +106,7 @@ def get_all_winning_lines() -> list:
     ---------
     4 | 5 | 6
     ---------
-    7 | 8 | 9 
+    7 | 8 | 9   
     
     [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
 
@@ -142,9 +136,7 @@ def render(board):
     """
     rows = []
     for y in range(0, BOARD_HEIGHT):
-        row = []
-        for x in range(0, BOARD_WIDTH):
-            row.append(board[x][y])
+        row = list(board[y])
         rows.append(row)
     
     row_num = 0
@@ -163,39 +155,17 @@ def render(board):
 
 
 
-def make_move(symbol, board, move_co_ords):
+def make_move(symbol, board, move_coords):
     """
     Places the symbol at the specified coordinates on the board.
-
-    Args:
-        symbol (str): [description]
-        board (list): [description]
-        move_co_ords (tuple): [description]
-    """
-    valid_move = False
-    while not valid_move:
-        # TODO
-        # Use an if statement to check if the position is valid.
-        pass
-
-def make_move_pos(symbol, board, position_num):
-    """
-    Places the symbol at the specified position on the board
     
     Args:
-        symbol (str): [description]
-        board (list): [description]
-        move_co_ords (tuple): [description]
+        symbol (str): "X" or "O"
+        board (list): tic tac toe board 
+        move_coords (tuple): the coordinates of the move to make
     """
-    
-    valid_move = False
-    while not valid_move:
-        # TODO
-        # Use an if statement to check if the position is valid.
-        pass
 
-
-
+    board[move_coords[0]][move_coords[1]] = symbol
 
 
 def is_board_full(board):
@@ -223,39 +193,47 @@ def is_board_full(board):
         # look through every position
         for position in row:
             # If I find one empty space, return false because it is not full
-            if position = None:
+            if position == None:
                 return False
     # I already looked through all spaces. So return True
     return True            
-         
-
 
 
 
 
 def get_move(board, current_player_symbol, current_player_name):
     """
-    Get the move from the player
+    Get the move from the player,
+    Returns position coordinates for the player's chosen position
 
     Args:
         board ([type]): [description]
         player_symbol ([type]): [description]
+
+    1 | 2 | 3
+    ---------
+    4 | 5 | 6
+    ---------
+    7 | 8 | 9
+
     """
+
     valid_move = False
+    valid_pos = None
+
     while not valid_move:
-        try:
-            position = int(input(current_player_name + "'s turn. Choose a position to place a '" + current_player_symbol + "'"))
-            if board[coords[position][0]][coords[position][1]] != None:
-                print("That space isn't free")
-                continue
-            if position:
-                return coords[position]
-        except KeyboardInterrupt:
-            print ("\nBye")
-            sys.exit()
-        except:
-            print("The entered position must be a number between 1 and 9")
-            
+        # call a function to get player input
+        valid_pos = input("Place Your Move!")
+        if valid_pos in ["1","2","3","4","5","6","7","8","9"]:
+            # check if the space is taken
+            x, y = coords[int(valid_pos)]
+            if board[x][y] == None:
+               valid_move = True  
+    return coords[int(valid_pos)]
+    # return coordinates of chosen position
+
+
+
 
 
 def play(p1_name, p2_name):
@@ -301,12 +279,10 @@ def play(p1_name, p2_name):
 
         if winner is not None:
             render(board)
-            print ("THE WINNER IS %s!" % winner)
             break
 
         if is_board_full(board):
             render(board)
-            print ("IT'S A DRAW!")
             break
 
         turn_number += 1
@@ -321,6 +297,6 @@ How can we optimize our usage of get_all_winning_lines?
 - Every single time we make a move, we calculate all possible 3 in a row
 - How can we avoid this?
 - Where can we store it so we don't have to calculate it so many times?
-- 
+
 
 """
