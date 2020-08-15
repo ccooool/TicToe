@@ -6,6 +6,7 @@ import sys
 BOARD_WIDTH = 3
 BOARD_HEIGHT = 3
 
+
 # Dictionary mapping position numbers to board coordinates
 coords = {1: (0, 0), 2: (0, 1), 3: (0, 2), 4: (1, 0), 5: (1, 1), 6: (1, 2), 7: (2, 0), 8: (2, 1),9: (2, 2)}
 
@@ -37,62 +38,28 @@ def new_board() -> list:
     return board
 
 
-def get_winner(board: list) -> str:
-    
 
-    """
-    This function will look at the board and check if a player has won. 
-    If a player won, it returns the winning player's symbol. Otherwise, 
-    it returns None.
-
-    Args:
-        board (list): The list that is the tic-tac-toe board
-    """
-
-    all_3_in_a_row = get_all_winning_lines()
-    #  =  [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
+## 1. Someone makes a move on the board
+## 2. We check if that move made him win
+##          get_winner() lets us do that
 
 
-    #  1 | 2 | 3
-    #  ---------
-    #  4 | 5 | 6
-    #  ---------
-    #  7 | 8 | 9
-
-    for three_in_row in all_3_in_a_row:
-        # example: three_in_row = [3,5,7]
-        values = []
-        for position in three_in_row:
-            x = coords[position][0]
-            y = coords[position][1]
-            values.append(board[x][y])
-        if set(values) == {"O"} or set(values) == {"X"}:
-            print(values[0] + "has won the game!")
-            return values[0]
-    print("no winner :C")
-    return None
             
 
 
 
 
 
-
-#yay me win ¯\_(ツ)_/¯
-#               |
-#               |
-#              /\
-
-    # TODO
-    # Check if our board contains any lines of three X's in a row or three O's in a row. 
-    # If it does, then return the winning symbol
-    # by taking any position from the winning line.
-
-    # Return None if no winner is found
-    return None
+'''
+yay me win ¯\_(ツ)_/¯
+              |
+              |
+             /\
 
 
+'''
 def get_all_winning_lines() -> list:
+
     """
     This function will return all the combinatinos of positions on a tictactoe board
     that can make a player win, meaning all possible positions that make up a line of three
@@ -120,8 +87,46 @@ def get_all_winning_lines() -> list:
 
     return rows + cols + diagonals
     
+    
+CACHE = get_all_winning_lines()  
+
+def get_winner(board: list) -> str:
+    
+
+    """
+    This function will look at the board and check if a player has won. 
+    If a player won, it returns the winning player's symbol. Otherwise, 
+    it returns None.
+
+    Args:
+        board (list): The list that is the tic-tac-toe board
+    """
+
+    # get all wining lines returns all 3 in a rows
+    
+    #  =  [[1,2,3], [3,5,7], [4,5,6], [2,5,8], ..... ]
 
 
+    #  1 | 2 | 3
+    #  ---------
+    #  4 | 5 | 6
+    #  ---------
+    #  7 | 8 | 9
+
+   
+ 
+    for three_in_row in CACHE:
+        # example: three_in_row = [3,5,7]
+        values = []
+        for position in three_in_row:
+            x = coords[position][0]
+            y = coords[position][1]
+            values.append(board[x][y])
+        if set(values) == {"O"} or set(values) == {"X"}:
+            print(values[0] + " has won the game!")
+            return values[0]
+
+    return None
 
 
 
@@ -196,6 +201,7 @@ def is_board_full(board):
             if position == None:
                 return False
     # I already looked through all spaces. So return True
+    print("no winner :C")
     return True            
 
 
@@ -215,14 +221,13 @@ def get_move(board, current_player_symbol, current_player_name):
     4 | 5 | 6
     ---------
     7 | 8 | 9
-
-    """
+"""
 
     valid_move = False
     valid_pos = None
 
     while not valid_move:
-        # call a function to get player input
+        # call a function to get player input 
         valid_pos = input("Place Your Move!")
         if valid_pos in ["1","2","3","4","5","6","7","8","9"]:
             # check if the space is taken
@@ -289,14 +294,13 @@ def play(p1_name, p2_name):
 
 
 
-
-
 """
-How can we optimize our usage of get_all_winning_lines?
+ASSIGNMENT THIS WEEK:
+
+How can we optimize our usage of get_all_winning_lines()?
 
 - Every single time we make a move, we calculate all possible 3 in a row
 - How can we avoid this?
 - Where can we store it so we don't have to calculate it so many times?
-
 
 """
