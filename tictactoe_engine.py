@@ -1,5 +1,6 @@
 import random
 import sys
+import tictactoe_ai as ai
 
 # TODO
 # Set the size of the tic tac toe board with two global variables
@@ -182,7 +183,7 @@ def is_board_full(board):
 
     Returns:
         True if the board is full, False otherwise
-
+     
 
     1 | 2 | 3
     ---------
@@ -223,20 +224,24 @@ def get_move(board, current_player_symbol, current_player_name):
     7 | 8 | 9
 """
 
-    valid_move = False
-    valid_pos = None
+    # computer move
+    if current_player_name in {"bot","cpu", "minimax"}:
+        return ai.make_move2(board, current_player_symbol)
+    # human move
+    else:
+        valid_move = False
+        valid_pos = None
 
-    while not valid_move:
-        # call a function to get player input 
-        valid_pos = input("Place Your Move!")
-        if valid_pos in ["1","2","3","4","5","6","7","8","9"]:
-            # check if the space is taken
-            x, y = coords[int(valid_pos)]
-            if board[x][y] == None:
-               valid_move = True  
-    return coords[int(valid_pos)]
-    # return coordinates of chosen position
-
+        while not valid_move:
+            # call a function to get player input 
+            valid_pos = input("Place Your Move!")
+            if valid_pos in ["1","2","3","4","5","6","7","8","9"]:
+                # check if the space is taken
+                x, y = coords[int(valid_pos)]
+                if board[x][y] == None:
+                    valid_move = True  
+        return coords[int(valid_pos)]
+        # return coordinates of chosen position
 
 
 
