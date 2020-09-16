@@ -20,7 +20,7 @@ def get_all_valid_moves(board):
         # look through every position
         for position in range(ttt.BOARD_WIDTH):
             # If I find one empty space, return false because it is not full
-            if board[row][position] == None:
+            if board[row][position] is None:
                 valid_moves.append((row, position))
     return valid_moves  
 
@@ -42,7 +42,7 @@ def make_move2(board, who_am_i):
             opposite_player = 'O'
         # use minimax to score "copy_board"
         score = ai_stuff(copy_board, opposite_player, who_am_i)
-        if best_score < score or best_score == None:
+        if best_score == None or best_score < score:
             best_score = score
             best_move = move
 
@@ -55,21 +55,23 @@ def ai_stuff(board, ai_player, player_to_optimize):
     This function computes the best score using minimax for any given board, and any player in tic tac toe
     
     """
-    if ttt.is_board_full(board):
-        return 0
     winner = ttt.get_winner(board)
-    if check_if_won(board, winner, player_to_optimize) == True:
-        return 1
-    if check_if_won(board, winner, player_to_optimize) == False:
-        return -1
-    
+    # if there is a winner, then see if we won, and the correct score
+    if winner is not None:
+        if winner == player_to_optimize:
+            return 10
+        else:
+            return -10
+    elif ttt.is_board_full(board):
+        return 0
+
     valid_moves = get_all_valid_moves(board)
 
     scores = []
 
     for pos in valid_moves:
         copy_board = copy.deepcopy(board)
-        ttt.make_move(ai_player, pos, board)
+        ttt.make_move(ai_player, copy_board, pos)
         # opposite player is the opponent of ai_player
         if ai_player == 'O':
             opposite_player = 'X'

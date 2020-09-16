@@ -12,7 +12,7 @@ BOARD_HEIGHT = 3
 coords = {1: (0, 0), 2: (0, 1), 3: (0, 2), 4: (1, 0), 5: (1, 1), 6: (1, 2), 7: (2, 0), 8: (2, 1),9: (2, 2)}
 
 
-def new_board() -> list:
+def new_board():
     """
     [1,2,3,4]
     This function will create a new, blank, tic-tac-toe board, using
@@ -124,7 +124,7 @@ def get_winner(board: list) -> str:
             y = coords[position][1]
             values.append(board[x][y])
         if set(values) == {"O"} or set(values) == {"X"}:
-            print(values[0] + " has won the game!")
+            # print(values[0] + " has won the game!")
             return values[0]
 
     return None
@@ -202,7 +202,7 @@ def is_board_full(board):
             if position == None:
                 return False
     # I already looked through all spaces. So return True
-    print("no winner :C")
+    # print("no winner :C")
     return True            
 
 
@@ -289,10 +289,12 @@ def play(p1_name, p2_name):
 
         if winner is not None:
             render(board)
+            print("THE WINNER IS " + winner)
             break
 
         if is_board_full(board):
             render(board)
+            print("\n TIE! \n")
             break
 
         turn_number += 1
